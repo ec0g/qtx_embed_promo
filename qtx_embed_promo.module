@@ -1,0 +1,115 @@
+<?php
+
+/**
+ * Implements hook_entity_presave().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ */
+function qtx_embed_promo_entity_presave(Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity->bundle() !== 'embed_promo') {
+    return;
+  }
+
+  if (!isset($entity->field_primary_taxonomy_target) || $entity->field_primary_taxonomy_target->isEmpty()) {
+    return;
+  }
+
+  $cacheTags = [];
+  /**
+   * Collect the promo item's target term ids and construct the cache tags to clear any caches targeting the term is.
+   * For example this would clear the cached items in the data cache, see EmbedPromoManager::promoNodeByTaxonomy(...)
+   *
+   * @var \Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem $value
+   */
+  foreach ($entity->field_primary_taxonomy_target->getIterator() as $delta => $value) {
+    $targetTermId = $value->get('target_id')
+      ->getCastedValue();
+    $targetTags = \Drupal\qtx_embed_promo\EmbedPromoManager::getTargetTermCacheTags($targetTermId);
+    $cacheTags = array_merge($cacheTags, $targetTags);
+  }
+
+  /* Invalidate tags. Should happen in all instances except if the promo content's status was unpublished and on save
+   * the status will stay unpublished.
+   */
+  // if the entity is new and it's not published, we don't want to clear promo tags.
+  $isPublished = $entity->status->value;
+  if (!isset($entity->original) && !$isPublished) {
+    return;
+  }
+
+  // if this is an update to an unpublished promo, then we won't clear cache tags.
+  if (isset($entity->original) && $entity->original->status->value == 0 && !$isPublished) {
+    return;
+  }
+
+  // Clear cache for targets in all other cases.
+  \Drupal\Core\Cache\Cache::invalidateTags($cacheTags);
+}
+
+/*
+function qtx_embed_promo_node_storage_load(array $entities){
+  foreach($entities as &$entity){
+    //$entity->addCacheTags();
+  }
+}*/
+function qtx_embed_promo_preprocess_node(&$vars) {
+  /** @var \Drupal\node\Entity\Node $node */
+  $node = $vars['node'];
+  /** @var \Drupal\qtx_embed_promo\EmbedPromoManager $epManager */
+  $epManager = \Drupal::service('qtx_embed_promo.manager');
+
+  if (!$primaryTaxonomy = $epManager->getTargetPrimaryTaxonomy($node)) {
+    return;
+  }
+
+  $tags = $epManager::getTargetTermCacheTags($primaryTaxonomy->id());
+  isset($vars['#cache']['tags']) ? $vars['#cache']['tags'] = array_merge($vars['#cache']['tags'], $tags) : $vars['#cache']['tags'] = $tags;
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function qtx_embed_promo_theme($existing, $type, $theme, $path) {
+  $theme = [];
+  $theme['node--embed_promo--body_embed_promo'] = [
+    'base hook' => 'node',
+    'path' => drupal_get_path('module', 'qtx_embed_promo') . '/templates',
+  ];
+
+  return $theme;
+}
+
+/**
+ * Prevent anonymous users from viewing embed_promo content types.
+ *
+ * Implements hook_node_access().
+ */
+function qtx_embed_promo_node_access(\Drupal\node\NodeInterface $node, $op, \Drupal\Core\Session\AccountInterface $account) {
+  if ($node->bundle() !== 'embed_promo') {
+    // if this isn't an embed_promo we don't want to interfere with node access.
+    return \Drupal\Core\Access\AccessResult::neutral();
+  }
+
+  if ($account->isAnonymous()) {
+    return \Drupal\Core\Access\AccessResult::forbidden();
+  }
+}
+
+function qtx_embed_promo_preprocess_field(&$vars, $hook) {
+  if ($vars['element']['#field_name'] !== 'field_call_to_action') {
+    return;
+  }
+
+  /** @var \Drupal\Core\Url $url */
+  $url = $vars['items'][0]['content']['#url'];
+  if (!$url->isExternal()) {
+    return;
+  }
+
+  $vars['items'][0]['content']['#options']['query'] = [
+    "utm_source" => strtolower(SITE_HANDLE),
+    'utm_medium' => 'internal',
+    'utm_campaign' => 'inter-article-promo',
+  ];
+}

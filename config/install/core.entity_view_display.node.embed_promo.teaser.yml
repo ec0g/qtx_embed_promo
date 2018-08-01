@@ -1,0 +1,28 @@
+uuid: 323ffbea-a829-4e85-a3fb-32997c0f5823
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.embed_promo.field_call_to_action
+    - field.field.node.embed_promo.field_headline
+    - field.field.node.embed_promo.field_paragraph_offset
+    - field.field.node.embed_promo.field_plain_body
+    - field.field.node.embed_promo.field_primary_taxonomy_target
+    - node.type.embed_promo
+  module:
+    - user
+id: node.embed_promo.teaser
+targetEntityType: node
+bundle: embed_promo
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_call_to_action: true
+  field_headline: true
+  field_paragraph_offset: true
+  field_plain_body: true
+  field_primary_taxonomy_target: true

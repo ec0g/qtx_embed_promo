@@ -1,0 +1,19 @@
+uuid: e0bb863a-8462-4bfa-a518-25573e9ca7c7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_plain_body
+    - node.type.embed_promo
+id: node.embed_promo.field_plain_body
+field_name: field_plain_body
+entity_type: node
+bundle: embed_promo
+label: 'Plain Body'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

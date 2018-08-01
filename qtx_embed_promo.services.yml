@@ -1,0 +1,4 @@
+services:
+  qtx_embed_promo.manager:
+    class: \Drupal\qtx_embed_promo\EmbedPromoManager
+    arguments: [ '@database', '@entity.manager', '@renderer', '@cache.data', '@cache.render' ]

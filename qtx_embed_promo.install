@@ -1,0 +1,48 @@
+<?php
+
+function qtx_embed_promo_uninstall() {
+
+  $configList = [
+    'core.base_field_override.node.embed_promo.promote',
+    'core.base_field_override.node.embed_promo.title',
+    'core.entity_form_display.node.embed_promo.default',
+    'core.entity_view_display.node.embed_promo.body_embed_promo',
+    'core.entity_view_display.node.embed_promo.default',
+    'core.entity_view_display.node.embed_promo.teaser',
+    'core.entity_view_mode.node.body_embed_promo',
+    'field.field.node.embed_promo.field_call_to_action',
+    'field.field.node.embed_promo.field_headline',
+    'field.field.node.embed_promo.field_paragraph_offset',
+    'field.field.node.embed_promo.field_plain_body',
+    'field.field.node.embed_promo.field_primary_taxonomy_target',
+    'field.storage.node.field_call_to_action',
+    'field.storage.node.field_headline',
+    'field.storage.node.field_paragraph_offset',
+    'field.storage.node.field_plain_body',
+    'field.storage.node.field_primary_taxonomy_target',
+    'node.type.embed_promo',
+    'rdf.mapping.node.embed_promo',
+  ];
+
+  /** @var \Drupal\Core\Config\ConfigFactoryInterface $configService */
+  $configService = \Drupal::configFactory();
+  foreach ($configList as $config) {
+    $editable = $configService->getEditable($config);
+    if ($editable instanceof \Drupal\Core\Config\Config) {
+      $editable->delete();
+    }
+  }
+
+  try {
+    $content_type = \Drupal::entityTypeManager()->getStorage('node_type')->load('embed_promo');
+    if ($content_type instanceof \Drupal\Core\Entity\EntityInterface) {
+      $content_type->delete();
+    }
+  } catch (\Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException $e) {
+    // if the content type doesn't exist then no biggie.
+  } catch (\Drupal\Core\Entity\EntityStorageException $e) {
+    drupal_set_message("Could not find the embed_promo content type. Exiting");
+  }
+
+
+}

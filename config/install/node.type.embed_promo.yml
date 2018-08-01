@@ -1,0 +1,32 @@
+uuid: 78939bf9-3f8a-4b4c-bbda-178d60e41a62
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+    - scheduler
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+  scheduler:
+    expand_fieldset: always
+    fields_display_mode: fieldset
+    publish_enable: true
+    publish_past_date: publish
+    publish_required: false
+    publish_revision: false
+    publish_touch: false
+    unpublish_enable: true
+    unpublish_required: false
+    unpublish_revision: false
+    scheduler_unpublish_moderation_state: archived
+    scheduler_unpublish_default_time: ''
+    scheduler_publish_moderation_state: published
+name: 'Embed Promo'
+type: embed_promo
+description: 'Embeddable content that can be inserted in fulll text fields. Typically meant to be used with the field_body of content types.'
+help: 'Use with caution. This feature has performance implications. Please try to schedule publishing and un-publishing during off hours. '
+new_revision: false
+preview_mode: 0
+display_submitted: true

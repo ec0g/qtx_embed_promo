@@ -1,0 +1,18 @@
+uuid: 9e446a9e-f158-443a-aa02-15288e1262cd
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.embed_promo
+id: node.embed_promo.title
+field_name: title
+entity_type: node
+bundle: embed_promo
+label: 'Top Label'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

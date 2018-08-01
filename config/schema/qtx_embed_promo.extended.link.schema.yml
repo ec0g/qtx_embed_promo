@@ -1,0 +1,7 @@
+field.field_settings.link:
+  type: mapping
+  label: 'Link Settings'
+  mapping:
+    max_label_length:
+      type: integer
+      label: "Label Maximum Length"

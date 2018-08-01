@@ -1,0 +1,14 @@
+uuid: 10e279b6-7e08-4e06-aa32-790f6ea99de8
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.embed_promo
+  module:
+    - node
+id: node.embed_promo
+targetEntityType: node
+bundle: embed_promo
+types:
+  - ''
+fieldMappings: {  }

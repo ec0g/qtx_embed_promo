@@ -1,0 +1,20 @@
+uuid: 9932b595-171d-48b3-aabf-ce20b430cc8c
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_paragraph_offset
+field_name: field_paragraph_offset
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,13 @@
+uuid: 7a861db3-4866-4350-a856-a1244513e37a
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+  enforced:
+      module:
+        - qtx_embed_promo
+id: node.body_embed_promo
+label: 'Body Embed Promo'
+targetEntityType: node
+cache: true

@@ -1,0 +1,25 @@
+uuid: 2a9a1a6d-3c8e-421f-800f-f29f1037e92d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_paragraph_offset
+    - node.type.embed_promo
+id: node.embed_promo.field_paragraph_offset
+field_name: field_paragraph_offset
+entity_type: node
+bundle: embed_promo
+label: 'Paragraph Offset'
+description: 'How many paragraphs to skip before inserting the embedded promo content. Defaults to 3. A field would need to have at least this number of paragraphs in order for the field body to be inserted. '
+required: false
+translatable: false
+default_value:
+  -
+    value: 3
+default_value_callback: ''
+settings:
+  min: 1
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

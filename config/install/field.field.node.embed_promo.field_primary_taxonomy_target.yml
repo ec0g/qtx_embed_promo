@@ -1,0 +1,29 @@
+uuid: 4bdc2103-406b-447a-9008-9c30f64d974f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_primary_taxonomy_target
+    - node.type.embed_promo
+    - taxonomy.vocabulary.taxonomy
+id: node.embed_promo.field_primary_taxonomy_target
+field_name: field_primary_taxonomy_target
+entity_type: node
+bundle: embed_promo
+label: 'Primary Taxonomy Target'
+description: "Targets content's Primary Taxonomy. All content whose primary taxonomy field matches with any selections made here will show the Promo Content feature. <br />\r\nPromo content feature will only show when it is published. <br />\r\nOnly one <strong>published</strong> Promo item will be shown on each target content item (article, slideshow, etc...)"
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      taxonomy: taxonomy
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

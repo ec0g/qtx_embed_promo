@@ -1,0 +1,51 @@
+uuid: de20d535-27e7-4237-bf15-61c75527af3c
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.body_embed_promo
+    - field.field.node.embed_promo.field_call_to_action
+    - field.field.node.embed_promo.field_headline
+    - field.field.node.embed_promo.field_paragraph_offset
+    - field.field.node.embed_promo.field_plain_body
+    - field.field.node.embed_promo.field_primary_taxonomy_target
+    - node.type.embed_promo
+  module:
+    - link
+    - user
+id: node.embed_promo.body_embed_promo
+targetEntityType: node
+bundle: embed_promo
+mode: body_embed_promo
+content:
+  field_call_to_action:
+    weight: 2
+    label: hidden
+    settings:
+      trim_length: 80
+      target: _blank
+      url_only: false
+      url_plain: false
+      rel: '0'
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_headline:
+    weight: 0
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_plain_body:
+    weight: 1
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+hidden:
+  field_paragraph_offset: true
+  field_primary_taxonomy_target: true
+  links: true

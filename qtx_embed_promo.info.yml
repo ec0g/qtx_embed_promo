@@ -1,0 +1,7 @@
+name: Embed Promo
+type: module
+description: Provides embedable promo content feature
+core: 8.x
+version: VERSION
+dependencies:
+  - entity_embed
